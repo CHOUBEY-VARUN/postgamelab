@@ -7,6 +7,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# Local Spring Boot credentials/config
+backend/application-local.properties
+
 # Logs
 *.log
 npm-debug.log*
