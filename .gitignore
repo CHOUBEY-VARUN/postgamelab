@@ -35,3 +35,6 @@ backend/.mvn/wrapper/maven-wrapper.jar
 
 # PostgreSQL / local data
 *.db
+
+# Local Spring Boot config
+backend/application-local.properties
