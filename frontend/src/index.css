@@ -65,3 +65,51 @@ p {
   font-size: 1.1rem;
   line-height: 1.7;
 }
+
+form {
+  display: grid;
+  gap: 20px;
+  max-width: 720px;
+}
+
+form div {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #020617;
+  color: #e5e7eb;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #38bdf8;
+  border-color: #38bdf8;
+}
+
+button {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: #e5e7eb;
+  color: #020617;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
