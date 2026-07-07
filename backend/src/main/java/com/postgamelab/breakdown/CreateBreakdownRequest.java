@@ -1,4 +1,4 @@
-package com.postgamelab.game;
+package com.postgamelab.breakdown;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record CreateGameSessionRequest(
+public record CreateBreakdownRequest(
         @NotBlank
         @Size(max = 160)
         String title,
