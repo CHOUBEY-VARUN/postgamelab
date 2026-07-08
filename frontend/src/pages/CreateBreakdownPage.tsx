@@ -31,7 +31,7 @@ function CreateBreakdownPage() {
         description,
       });
 
-      navigate(`/breakdowns/${breakdown.slug}`);
+      navigate(`/breakdowns/${breakdown.id}`);
     } catch {
       setError("Could not create breakdown. Please check your details and try again.");
     } finally {
