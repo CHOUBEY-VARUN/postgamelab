@@ -1,3 +1,29 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
+const AUTH_TOKEN_STORAGE_KEY = "postgamelab_token";
+
+function getAuthHeaders() {
+  const token = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  const headers = new Headers();
+
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
+  return headers;
+}
+
+export async function getMyBreakdowns(): Promise<Breakdown[]> {
+  const response = await fetch(`${API_BASE_URL}/api/breakdowns`, {
+    headers: getAuthHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to load breakdowns");
+  }
+
+  return response.json();
+}
+
 export type BreakdownVisibility = "PRIVATE" | "PUBLIC";
 
 export type Breakdown = {
@@ -26,11 +52,12 @@ export type CreateBreakdownPayload = {
 export async function createBreakdown(
   payload: CreateBreakdownPayload
 ): Promise<Breakdown> {
-  const response = await fetch("/api/breakdowns", {
+  const headers = getAuthHeaders();
+  headers.set("Content-Type", "application/json");
+
+  const response = await fetch(`${API_BASE_URL}/api/breakdowns`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify(payload),
   });
 
@@ -44,7 +71,7 @@ export async function createBreakdown(
 export async function getPublicBreakdownBySlug(
   slug: string
 ): Promise<Breakdown> {
-  const response = await fetch(`/api/breakdowns/public/${slug}`);
+  const response = await fetch(`${API_BASE_URL}/api/breakdowns/public/${slug}`);
 
   if (!response.ok) {
     throw new Error("Failed to load breakdown");
