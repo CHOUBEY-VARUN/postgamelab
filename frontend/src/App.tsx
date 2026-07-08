@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PublicBreakdownPage from './pages/PublicBreakdownPage';
 import RegisterPage from './pages/RegisterPage';
+import BreakdownDetailPage from './pages/BreakdownDetailPage';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/breakdowns/new" element={<CreateBreakdownPage />} />
-        <Route path="/breakdowns/:slug" element={<PublicBreakdownPage />} />
+        <Route path="/breakdowns/:id" element={<BreakdownDetailPage />} />
+        <Route path="/public/breakdowns/:slug" element={<PublicBreakdownPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
