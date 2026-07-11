@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BreakdownRepository extends JpaRepository<Breakdown, UUID> {
 
     Optional<Breakdown> findBySlug(String slug);
+
+    boolean existsBySlug(String slug);
 }
