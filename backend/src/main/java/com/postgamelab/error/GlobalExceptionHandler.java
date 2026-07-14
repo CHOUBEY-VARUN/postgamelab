@@ -15,6 +15,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.postgamelab.breakdown.BreakdownNotFoundException;
 import com.postgamelab.breakdown.SlugConflictException;
+import com.postgamelab.user.EmailAlreadyExistsException;
+import com.postgamelab.user.RegistrationConflictException;
+import com.postgamelab.user.UsernameAlreadyExistsException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -45,6 +48,49 @@ public class GlobalExceptionHandler {
         return buildResponse(
                 HttpStatus.CONFLICT,
                 "SLUG_CONFLICT",
+                exception.getMessage(),
+                request
+        );
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> handleUsernameAlreadyExists(
+            UsernameAlreadyExistsException exception,
+            HttpServletRequest request
+    ) {
+        return buildFieldErrorResponse(
+                HttpStatus.CONFLICT,
+                "USERNAME_ALREADY_EXISTS",
+                exception.getMessage(),
+                request,
+                "username",
+                exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> handleEmailAlreadyExists(
+            EmailAlreadyExistsException exception,
+            HttpServletRequest request
+    ) {
+        return buildFieldErrorResponse(
+                HttpStatus.CONFLICT,
+                "EMAIL_ALREADY_EXISTS",
+                exception.getMessage(),
+                request,
+                "email",
+                exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler(RegistrationConflictException.class)
+    public ResponseEntity<ApiErrorResponse> handleRegistrationConflict(
+            RegistrationConflictException exception,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                "REGISTRATION_CONFLICT",
                 exception.getMessage(),
                 request
         );
@@ -135,6 +181,25 @@ public class GlobalExceptionHandler {
                 code,
                 message,
                 request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(response);
+    }
+
+    private ResponseEntity<ApiErrorResponse> buildFieldErrorResponse(
+            HttpStatus status,
+            String code,
+            String message,
+            HttpServletRequest request,
+            String field,
+            String fieldMessage
+    ) {
+        ApiErrorResponse response = ApiErrorResponse.withFieldErrors(
+                status.value(),
+                code,
+                message,
+                request.getRequestURI(),
+                List.of(new FieldValidationError(field, fieldMessage))
         );
 
         return ResponseEntity.status(status).body(response);
