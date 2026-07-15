@@ -3,8 +3,8 @@ import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
+  AuthApiError,
   registerUser,
-  RegistrationApiError,
 } from "../api/auth";
 
 function RegisterPage() {
@@ -52,7 +52,7 @@ function RegisterPage() {
         },
       });
     } catch (caughtError) {
-      if (caughtError instanceof RegistrationApiError) {
+      if (caughtError instanceof AuthApiError) {
         const nextFieldErrors: Record<string, string> = {};
 
         for (const fieldError of caughtError.fieldErrors) {
