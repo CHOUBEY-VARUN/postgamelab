@@ -81,3 +81,27 @@ postgamelab/
 │   └── workflows/
 ├── .gitignore
 └── README.md
+
+## Local Backend Configuration
+
+The backend requires PostgreSQL credentials and a Base64-encoded JWT signing key.
+
+Set them in the PowerShell session that will run the backend:
+
+```powershell
+$env:DB_PASSWORD = "your-local-postgres-password"
+
+$jwtBytes = New-Object byte[] 32
+$randomNumberGenerator = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+$randomNumberGenerator.GetBytes($jwtBytes)
+$env:JWT_SECRET = [Convert]::ToBase64String($jwtBytes)
+$randomNumberGenerator.Dispose()
+```
+
+`JWT_EXPIRATION` is optional and accepts an ISO-8601 duration. It defaults to one hour:
+
+```powershell
+$env:JWT_EXPIRATION = "PT1H"
+```
+
+Never commit a real production JWT secret. Configure production secrets through the deployment platform's secret-management or environment-variable settings.

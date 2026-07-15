@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.postgamelab.breakdown.BreakdownNotFoundException;
 import com.postgamelab.breakdown.SlugConflictException;
 import com.postgamelab.user.EmailAlreadyExistsException;
+import com.postgamelab.user.InvalidCredentialsException;
 import com.postgamelab.user.RegistrationConflictException;
 import com.postgamelab.user.UsernameAlreadyExistsException;
 
@@ -91,6 +92,19 @@ public class GlobalExceptionHandler {
         return buildResponse(
                 HttpStatus.CONFLICT,
                 "REGISTRATION_CONFLICT",
+                exception.getMessage(),
+                request
+        );
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidCredentials(
+            InvalidCredentialsException exception,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.UNAUTHORIZED,
+                "INVALID_CREDENTIALS",
                 exception.getMessage(),
                 request
         );

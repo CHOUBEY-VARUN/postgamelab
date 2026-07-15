@@ -1,14 +1,15 @@
+import { getStoredAuthToken } from "./auth";
+
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080"
 ).replace(/\/$/, "");
-const AUTH_TOKEN_STORAGE_KEY = "postgamelab_token";
 
 function getApiUrl(path: string) {
   return `${API_BASE_URL}${path}`;
 }
 
 function getAuthHeaders() {
-  const token = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  const token = getStoredAuthToken();
   const headers = new Headers();
 
   if (token) {
